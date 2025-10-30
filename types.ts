@@ -1,6 +1,24 @@
-import React from 'react';
+// FIX: Define the data structures used throughout the application to resolve module and type errors.
+export interface Project {
+  image: string;
+  title: string;
+  description: string;
+  detailedDescription: string;
+  galleryImages: string[];
+}
 
-// Define the structure for the page content
+export interface Event {
+  date: string;
+  title: string;
+  description: string;
+}
+
+export interface ContactPerson {
+    name: string;
+    phone: string;
+    whatsapp: string;
+}
+
 export interface Content {
   hero: {
     title: string;
@@ -8,29 +26,19 @@ export interface Content {
     cta: string;
   };
   about: {
-    title:string;
+    title: string;
     paragraph1: string;
     paragraph2: string;
   };
   ourWork: {
     title: string;
     description: string;
-    projects: {
-      title: string;
-      description: string;
-      image: string;
-      detailedDescription: string;
-      galleryImages: string[];
-    }[];
+    projects: Project[];
   };
   events: {
     title: string;
     description: string;
-    eventList: {
-      title: string;
-      date: string;
-      description: string;
-    }[];
+    eventList: Event[];
   };
   getInvolved: {
     title: string;
@@ -38,13 +46,13 @@ export interface Content {
     donateCta: string;
     volunteerCta: string;
   };
+  contact: {
+      title: string;
+      description: string;
+      persons: ContactPerson[];
+  }
 }
 
-// Type for a single project
-export type Project = Content['ourWork']['projects'][0];
-
-
-// Props for each section component
 export interface SectionProps {
   content: Content;
   scrollY: number;
