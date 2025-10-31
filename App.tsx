@@ -62,8 +62,8 @@ const siteContent: Content = {
     title: "Get in Touch",
     description: "Have questions or want to partner with us? We'd love to hear from you. Reach out to our coordinators directly.",
     persons: [
-        { name: "Kaby", phone: "0799125755", whatsapp: "0799125755" },
-        { name: "Vero", phone: "0741743593", whatsapp: "0741743593" },
+        { name: "Kaby", phone: "+254799125755", whatsapp: "+254799125755" },
+        { name: "Vero", phone: "+254741743593", whatsapp: "+254741743593" },
     ]
   }
 };
