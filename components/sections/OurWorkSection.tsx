@@ -1,88 +1,60 @@
 import React, { useState } from 'react';
 import type { SectionProps, Project } from '../../types';
-import useOnScreen from '../../hooks/useOnScreen';
-import { ProjectModal } from '../common/ProjectModal';
 import { CarouselCard } from '../common/CarouselCard';
+import { ProjectModal } from '../common/ProjectModal';
+import useOnScreen from '../../hooks/useOnScreen';
+import { AnimatedCard } from '../common/AnimatedCard';
 
-const ChevronLeft = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-    </svg>
-);
-
-const ChevronRight = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-    </svg>
-);
 
 export const OurWorkSection: React.FC<SectionProps> = ({ content }) => {
-    const [ref, isVisible] = useOnScreen<HTMLDivElement>({ threshold: 0.1 });
+    const { title, description, projects } = content.ourWork;
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-    const [activeIndex, setActiveIndex] = useState(1); // Start with the second item centered
 
-    const ourWorkContent = content.ourWork;
+    const [ref, isVisible] = useOnScreen<HTMLElement>({ threshold: 0.1 });
 
     const handlePrev = () => {
-        setActiveIndex((prev) => (prev > 0 ? prev - 1 : ourWorkContent.projects.length - 1));
+        setCurrentIndex((prev) => (prev > 0 ? prev - 1 : projects.length - 1));
     };
 
     const handleNext = () => {
-        setActiveIndex((prev) => (prev < ourWorkContent.projects.length - 1 ? prev + 1 : 0));
+        setCurrentIndex((prev) => (prev < projects.length - 1 ? prev + 1 : 0));
     };
-
+    
     return (
-        <section className="py-16 md:py-24">
-            <div className="container mx-auto px-6">
-                 <div 
-                    ref={ref} 
-                    className={`bg-white max-w-6xl mx-auto p-8 md:p-12 rounded-2xl shadow-xl transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-95'}`}
-                >
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-                            {ourWorkContent.title}
-                        </h2>
-                        <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-                            {ourWorkContent.description}
-                        </p>
+        <>
+            <section ref={ref} className="py-20 md:py-32 relative overflow-hidden">
+                <div className="container mx-auto px-6">
+                    <AnimatedCard isVisible={isVisible}>
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">{title}</h2>
+                            <p className="max-w-2xl mx-auto text-lg text-white/80">{description}</p>
+                        </div>
+                    </AnimatedCard>
+
+                    <div className="relative h-[450px] w-full" style={{ perspective: '1200px' }}>
+                        {projects.map((project, index) => {
+                            const offset = index - currentIndex;
+                            return (
+                                <CarouselCard 
+                                    key={project.title}
+                                    project={project}
+                                    offset={offset}
+                                    onClick={() => offset === 0 && setSelectedProject(project)}
+                                />
+                            );
+                        })}
                     </div>
 
-                    <div className="relative h-[450px] flex items-center justify-center">
-                        <div className="relative w-full h-full" style={{ perspective: '1000px' }}>
-                            {ourWorkContent.projects.map((project, index) => (
-                                <CarouselCard 
-                                    key={index} 
-                                    project={project}
-                                    offset={index - activeIndex}
-                                    onClick={() => setSelectedProject(project)}
-                                />
-                            ))}
-                        </div>
-
-                        <button 
-                            onClick={handlePrev} 
-                            className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white/80 rounded-full p-2 text-gray-700 transition-colors z-30 shadow-md"
-                            aria-label="Previous project"
-                        >
-                            <ChevronLeft />
-                        </button>
-                        <button 
-                            onClick={handleNext} 
-                            className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white/80 rounded-full p-2 text-gray-700 transition-colors z-30 shadow-md"
-                            aria-label="Next project"
-                        >
-                            <ChevronRight />
-                        </button>
+                    <div className="mt-8 flex justify-center gap-6">
+                        <button onClick={handlePrev} aria-label="Previous project" className="text-4xl text-white/60 hover:text-white transition-transform duration-300 hover:scale-110">&larr;</button>
+                        <button onClick={handleNext} aria-label="Next project" className="text-4xl text-white/60 hover:text-white transition-transform duration-300 hover:scale-110">&rarr;</button>
                     </div>
                 </div>
-            </div>
-
+            </section>
             {selectedProject && (
-                <ProjectModal 
-                    project={selectedProject} 
-                    onClose={() => setSelectedProject(null)} 
-                />
+                <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
             )}
-        </section>
+        </>
     );
 };

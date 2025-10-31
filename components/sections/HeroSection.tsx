@@ -1,65 +1,46 @@
 import React from 'react';
-import type { SectionProps } from '../../types';
+import type { Content } from '../../types';
 import { ScrollIndicator } from '../common/ScrollIndicator';
-import useOnScreen from '../../hooks/useOnScreen';
 
-interface HeroSectionProps extends SectionProps {
+interface HeroSectionProps {
+    content: Content;
+    scrollY: number;
     onJoinMissionClick: () => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ content, scrollY, onJoinMissionClick }) => {
-    const heroContent = content.hero;
-    const [ref, isVisible] = useOnScreen<HTMLElement>({ threshold: 0.1 });
-
-    const contentOpacity = Math.max(0, 1 - scrollY / 400);
-    const imageUrl = "https://images.unsplash.com/photo-1534224039824-7640243b83f5?q=80&w=2070&auto=format&fit=crop";
-
-    const panelAnimation = isVisible ? 'running' : 'paused';
+    const { title, subtitle, cta } = content.hero;
+    const isScrolled = scrollY > 50;
 
     return (
-        <section ref={ref} className="relative h-screen flex items-center justify-center text-center text-white overflow-hidden">
-            
+        <section className="h-screen flex items-center justify-center relative overflow-hidden">
+            {/* Animated background panels */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute top-1/2 -translate-y-1/2 h-[30vh] w-[15vw] z-20 shadow-2xl" style={{ animation: `d-pan-1 20s ease-in-out infinite`, animationPlayState: panelAnimation, backgroundImage: `url(${imageUrl})`, backgroundSize: '2700px 1500px', backgroundPosition: '0% 50%' }}></div>
-                <div className="absolute top-1/2 -translate-y-1/2 left-[10vw] h-[50vh] w-[25vw] z-10" style={{ animation: `d-pan-2 20s ease-in-out infinite`, animationPlayState: panelAnimation, backgroundImage: `url(${imageUrl})`, backgroundSize: '2700px 1500px', backgroundPosition: '-10vw 50%' }}></div>
-                <div className="absolute top-1/2 -translate-y-1/2 left-[25vw] h-screen w-[40vw] z-30 shadow-2xl" style={{ animation: `d-pan-3 20s ease-in-out infinite`, animationPlayState: panelAnimation, backgroundImage: `url(${imageUrl})`, backgroundSize: '2700px 1500px', backgroundPosition: '-35vw 50%' }}></div>
-                <div className="absolute top-1/2 -translate-y-1/2 left-[60vw] h-[80vh] w-[25vw] z-10" style={{ animation: `d-pan-4 20s ease-in-out infinite`, animationPlayState: panelAnimation, backgroundImage: `url(${imageUrl})`, backgroundSize: '2700px 1500px', backgroundPosition: '-70vw 50%' }}></div>
+                <div className="absolute top-1/2 -translate-y-1/2 h-[30vh] w-[15vw] animate-d-pan-1 shadow-2xl" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=2070&auto=format&fit=crop)', backgroundSize: '2700px 1500px', backgroundPosition: '0% 50%', zIndex: 2 }}></div>
+                <div className="absolute top-1/2 -translate-y-1/2 left-[10vw] h-[50vh] w-[25vw] animate-d-pan-2" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=2070&auto=format&fit=crop)', backgroundSize: '2700px 1500px', backgroundPosition: '-10vw 50%', zIndex: 1 }}></div>
+                <div className="absolute top-1/2 -translate-y-1/2 left-[25vw] h-full w-[40vw] animate-d-pan-3 shadow-2xl" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=2070&auto=format&fit=crop)', backgroundSize: '2700px 1500px', backgroundPosition: '-35vw 50%', zIndex: 3 }}></div>
+                <div className="absolute top-1/2 -translate-y-1/2 left-[60vw] h-[80vh] w-[25vw] animate-d-pan-4" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=2070&auto=format&fit=crop)', backgroundSize: '2700px 1500px', backgroundPosition: '-70vw 50%', zIndex: 1 }}></div>
+                <div className="absolute inset-0 bg-black/50"></div>
             </div>
-
-            <div className="absolute inset-0 bg-black/50"></div>
-
-            <div className="relative z-10 px-6" style={{ opacity: contentOpacity }}>
-                <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-4 text-shadow-lg animate-fade-in-down">
-                    {heroContent.title}
+            
+            <div 
+                className="z-10 text-center p-4 transition-transform duration-500 ease-out"
+                style={{ transform: `translateY(${scrollY * 0.2}px)` }}
+            >
+                <h1 className="text-5xl md:text-8xl font-extrabold tracking-tight mb-4 text-shadow bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-300">
+                    {title}
                 </h1>
-                <p className="text-lg md:text-2xl max-w-3xl mx-auto mb-8 text-shadow-md animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-                    {heroContent.subtitle}
+                <p className="max-w-3xl mx-auto text-lg md:text-xl text-white/90 mb-8 text-shadow">
+                    {subtitle}
                 </p>
-                <button
+                <button 
                     onClick={onJoinMissionClick}
-                    className="bg-gradient-to-r from-indigo-600 to-pink-500 hover:from-indigo-700 hover:to-pink-600 text-white font-bold py-3 px-8 rounded-full text-lg transform hover:scale-105 transition-all duration-300 shadow-lg animate-fade-in-up"
-                    style={{ animationDelay: '0.6s' }}
+                    className="bg-white/10 border-2 border-white/50 backdrop-blur-md text-white font-bold py-3 px-8 rounded-full hover:bg-white/20 hover:scale-105 transition-all duration-300 transform"
                 >
-                    {heroContent.cta}
+                    {cta}
                 </button>
             </div>
-
-            <ScrollIndicator isVisible={scrollY < 100} />
-            
-            <style>{`
-                .text-shadow-lg { text-shadow: 0 4px 6px rgba(0,0,0,0.4); }
-                .text-shadow-md { text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-                @keyframes fade-in-down {
-                    0% { opacity: 0; transform: translateY(-20px); }
-                    100% { opacity: 1; transform: translateY(0); }
-                }
-                .animate-fade-in-down { animation: fade-in-down 0.8s ease-out forwards; }
-                @keyframes fade-in-up {
-                    0% { opacity: 0; transform: translateY(20px); }
-                    100% { opacity: 1; transform: translateY(0); }
-                }
-                .animate-fade-in-up { animation: fade-in-up 0.8s ease-out forwards; }
-            `}</style>
+            <ScrollIndicator isVisible={!isScrolled} />
         </section>
     );
 };

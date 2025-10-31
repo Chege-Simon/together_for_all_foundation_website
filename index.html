@@ -4,70 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Together for All Foundation</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    animation: {
-                        'bounce-slow': 'bounce-slow 2s infinite',
-                    },
-                    keyframes: {
-                        'bounce-slow': {
-                            '0%, 20%, 50%, 80%, 100%': { transform: 'translateY(0)' },
-                            '40%': { transform: 'translateY(-10px)' },
-                            '60%': { transform: 'translateY(-5px)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Poppins', 'sans-serif'],
+          },
+          animation: {
+            'gradient': 'gradient 15s ease infinite',
+            'bounce-slow': 'bounce 2s infinite',
+            'd-pan-1': 'd-pan-1 15s ease-in-out infinite alternate',
+            'd-pan-2': 'd-pan-2 15s ease-in-out infinite alternate',
+            'd-pan-3': 'd-pan-3 15s ease-in-out infinite alternate',
+            'd-pan-4': 'd-pan-4 15s ease-in-out infinite alternate',
+          },
+          keyframes: {
+            gradient: {
+              '0%, 100%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+            },
+            'd-pan-1': { '0%': { backgroundPosition: '0% 50%' }, '100%': { backgroundPosition: '20% 50%' } },
+            'd-pan-2': { '0%': { backgroundPosition: '20% 50%' }, '100%': { backgroundPosition: '40% 50%' } },
+            'd-pan-3': { '0%': { backgroundPosition: '40% 50%' }, '100%': { backgroundPosition: '60% 50%' } },
+            'd-pan-4': { '0%': { backgroundPosition: '60% 50%' }, '100%': { backgroundPosition: '80% 50%' } },
+          }
         }
-
-        .animate-gradient {
-            background: linear-gradient(-45deg, #1e0034, #3d0042, #001f3f, #003434);
-            background-size: 400% 400%;
-            animation: gradient-animation 20s ease infinite;
-        }
-
-        @keyframes gradient-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes d-pan-1 { 50% { background-position: -20vw 50%; } }
-        @keyframes d-pan-2 { 50% { background-position: calc(-10vw - 20px) 50%; } }
-        @keyframes d-pan-3 { 50% { background-position: calc(-35vw - 20px) 50%; } }
-        @keyframes d-pan-4 { 50% { background-position: calc(-70vw - 20px) 50%; } }
-
-    </style>
-</head>
-<body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-
-    <script type="importmap">
-    {
-      "imports": {
-        "react": "https://aistudiocdn.com/react@^19.2.0",
-        "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-        "react/": "https://aistudiocdn.com/react@^19.2.0/"
       }
     }
     </script>
-    <script type="module" src="./index.tsx"></script>
+    <script type="importmap">
+        {
+          "imports": {
+            "react": "https://aistudiocdn.com/react@^19.2.0",
+            "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+            "react/": "https://aistudiocdn.com/react@^19.2.0/"
+          }
+        }
+    </script>
+    <style>
+      body {
+          overscroll-behavior: none;
+      }
+      .animate-gradient {
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+      }
+    </style>
+</head>
+<body class="bg-gray-900">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
 </body>
 </html>

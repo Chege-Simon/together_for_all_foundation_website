@@ -48,7 +48,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
             onClick={onClose}
         >
             <div 
-                className="bg-white rounded-lg shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto transform transition-transform duration-300 scale-95 animate-scale-in"
+                className="bg-white rounded-lg shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto transform transition-transform duration-300 scale-95 animate-scale-in custom-scrollbar"
                 onClick={(e) => e.stopPropagation()}
             >
                 <div className="p-6 md:p-8 sticky top-0 bg-white border-b flex justify-between items-center">
@@ -80,6 +80,27 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                     to { transform: scale(1); opacity: 1; }
                 }
                 .animate-scale-in { animation: scale-in 0.3s ease-out forwards; }
+
+                /* Custom Scrollbar Styles */
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 8px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background-color: rgba(0, 0, 0, 0.3);
+                    border-radius: 10px;
+                    border: 2px solid white;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background-color: rgba(0, 0, 0, 0.5);
+                }
+                /* For Firefox */
+                .custom-scrollbar {
+                  scrollbar-width: thin;
+                  scrollbar-color: rgba(0, 0, 0, 0.3) white;
+                }
             `}</style>
         </div>
     );
